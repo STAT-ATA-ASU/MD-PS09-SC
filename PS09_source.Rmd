@@ -159,7 +159,7 @@ Type your complete sentence answer here using inline R code and delete this comm
 
 ***
 
-### Step 3. Calculate the Differences Between Male and Females Unnder the Null Hypothesis{-}
+### Step 3. Calculate the Differences Between Male and Females Under the Null Hypothesis{-}
 
 The following calculates the differences in mean GPA for males and females for "shuffled" (permuted) data. 
 
