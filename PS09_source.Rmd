@@ -24,7 +24,7 @@ registerDoMC(cores = 12)
 ```
 
 
-## Background{-}
+# Background
 
 First load the necessary packages:
 
@@ -35,11 +35,20 @@ library(infer)
 
 For this Problem Set, you will work with some grade-point-average (GPA) data for college freshman. The following will read in the data:
 
-```{r}
-sat_gpa <- read_csv("https://rudeboybert.github.io/SDS220/static/PS/sat_gpa.csv")
+```{r, label = "satgpa", fig.cap = "SAT versus GPA data"}
+if(!dir.exists("./Data")){
+  dir.create("./Data")
+  }
+url <- "https://rudeboybert.github.io/SDS220/static/PS/sat_gpa.csv"
+if(!file.exists("./Data/sat_gpa.csv")){ 
+  download.file(url, destfile = "./Data/sat_gpa.csv")
+  }
+sat_gpa <- read_csv("./Data/sat_gpa.csv")
+DT::datatable(sat_gpa, rownames = FALSE)
 ```
 
-Use the `View()` function **in the console** to take a look at the data in the viewer. Each row or case in this data frame is a student. The data includes the (binary) gender of each student; the math, verbal and total SAT scores for each student; the GPA of each student in high school (categorized as "low" or "high"); and the GPA of each student their first year of college on a numeric scale.
+Be sure to take a look at the data in Figure \@ref(fig:satgpa). Each row or case in this data frame is a student. The data includes the (binary) gender of each student; the math, verbal and total SAT scores for each student; the GPA of each student in high school (categorized as "low" or "high"); and the GPA of each student their first year of college on a numeric scale.
+
 
 We will use hypothesis testing to answer the following questions:
 
@@ -49,7 +58,7 @@ We will use hypothesis testing to answer the following questions:
 Note, if you get stuck as you are working through this, it will be helpful to go back and read Chapter 10 in ModernDive.
 
 
-
+_________________
 
 
 # Gender Differences in First-Year GPA?
@@ -70,10 +79,13 @@ Note, if you get stuck as you are working through this, it will be helpful to go
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
+*
+
+*
 
 </div> 
 
-***
+_________________
 
 
 2. Generate a data visualization that displays the GPAs of the two groups. Be sure to include a title and label your axes. 
@@ -83,7 +95,7 @@ Type your complete sentence answer here using inline R code and delete this comm
 
 ```
 
-***
+_________________
 
 ## Stating a Null Hypothesis
 
@@ -128,16 +140,17 @@ This step involves generating simulated values *as if* we lived in a world where
 gpas_in_null_world <- sat_gpa %>% 
   specify(gpa_fy ~ sex) %>% 
   hypothesize(null = "independence") %>% 
-  generate(reps = 2000)
+  generate(reps = 2000, type = "permute")
 ```
 
-
+_________________
 
 3. What was the size of the "shuffled" (permuted) sample in each run?
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
+* 
 
 </div> 
 
@@ -154,10 +167,13 @@ Type your complete sentence answer here using inline R code and delete this comm
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
+*
+
+*
 
 </div> 
 
-***
+_________________
 
 ### Step 3. Calculate the Differences Between Male and Females Under the Null Hypothesis{-}
 
@@ -168,7 +184,7 @@ gpa_diff_under_null <- gpas_in_null_world %>%
   calculate(stat = "diff in means", order = c("Female", "Male")) 
 
 gpa_diff_under_null %>% 
-  slice(1:5)
+  slice(1:5) # show first five rows
 ```
 
 
@@ -178,10 +194,11 @@ gpa_diff_under_null %>%
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
+* 
 
 </div> 
 
-***
+______________
 
 ### Step 4. Visualize how the Observed Difference Compares to the Null Distribution of $\delta$ {-}
 
@@ -210,7 +227,7 @@ pvalue
 
 This result indicates that there is a `r pvalue` chance (very low) that we would see a difference of `r obs_diff_gpa_sex` in GPA scores between males and females (or a bigger difference) if in fact there was truly no difference between the sexes in GPA scores at the population level.
 
-
+_______________
 
 6. Fill in the blanks below to write up the results & conclusions for this test:
 
@@ -224,7 +241,7 @@ The mean GPA scores for females in our sample ($\bar{x}$ = ______) was greater t
 
 
 
-***
+_______________
 
 ### Step 6: Calculate a Confidence Interval for the Difference{-}
 
@@ -247,7 +264,7 @@ Note that all the above steps can be done with one line of code **if a slew of a
 t.test(gpa_fy ~ sex, var.equal = TRUE, data = sat_gpa)
 ```
 
-***
+___________
 
 
 
@@ -279,16 +296,20 @@ ggplot(sat_gpa, aes(x = gpa_hs, y = sat_total)) +
 
 ## Stating a Null Hypothesis
 
+___________
 
-7.  State the null hypothesis that you are testing (using either words or symbols)
+7.  State the null hypothesis that you are testing (using words and symbols).
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
+* 
+
+*
 
 </div> 
 
-***
+________________
 
 ## Testing the Null Hypothesis
 
@@ -301,7 +322,7 @@ Calculate the observed difference between the mean total SAT scores of the low a
 
 ```
 
-***
+_______________
 
 8.  Generate the null distribution of $\delta$. Here you need to generate simulated values *as if* we lived in a world where there's no difference in SAT scores between high school students with low and high GPAs.  Use 2000 replications to generate the null distribution. 
 
@@ -312,9 +333,9 @@ Calculate the observed difference between the mean total SAT scores of the low a
   
 ```
 
-***
+________________
 
-9.  Calculate the differences in mean SAT scores between students with high and low GPA scores under the null hypothesis. Note...you should use whatever order you chose in 7. Store your results in an object named `sat_diff_under_null`. 
+9.  Calculate the differences in mean SAT scores between students with high and low GPA scores under the null hypothesis. Note...you should use whatever order you chose in 7. Store your results in an object named `sat_diff_under_null`. Show the first six rows of `sat_diff_under_null`. 
 
 ```{r}
 # Type your code and comments inside the code chunk
@@ -322,7 +343,7 @@ Calculate the observed difference between the mean total SAT scores of the low a
 
 ```
 
-***
+___________
 
 10. Visualize how the observed difference compares to the null distribution of $\delta$. Generate a histogram of the null distribution, with a vertical red line showing the observed difference in SAT scores between high school students with a high and low GPA. 
 
@@ -344,21 +365,22 @@ Calculate the observed difference between the mean total SAT scores of the low a
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
-
+*
 
 </div> 
 
-***
+_______________
 
 12. Write up the results & conclusions for this hypothesis test. Note, p-values less than 0.001 are often reported as p < 0.001. 
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
+*
 
 </div> 
 
-***
+________________
 
 13. Compute a 95% bootstrap percentile confidence interval for the difference in total SAT scores for students with high and low high-school GPA scores. Note...you should use whatever order you chose for your null hypothesis...i.e. `order = c("low", "high")` or `order = c("high", "low")`.  Provide a basic interpretation of your computed interval.
 
@@ -371,11 +393,11 @@ Type your complete sentence answer here using inline R code and delete this comm
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
 
-
+*
 
 </div> 
 
-***
+______________
 
 14. Use a t-test to test the null hypothesis that average total SAT scores do not differ between students with high and low high school GPA scores at the population level.
 
@@ -384,4 +406,4 @@ Type your complete sentence answer here using inline R code and delete this comm
 
 ```
 
-***
+____________
