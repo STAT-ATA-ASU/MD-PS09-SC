@@ -1,6 +1,6 @@
 ---
 title: "Problem Set 09"
-author: "Partial Solution"
+author: "Your Name Here"
 date: 'Last compiled: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output:
   bookdown::html_document2:
