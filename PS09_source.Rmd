@@ -65,6 +65,7 @@ _________________
 
 ## Exploratory Data Analysis
 
+__________
 
 1. Calculate the mean GPA score for each gender, using the `group_by` and `summarize` commands from the `dplyr` package.  Store the result in `avg_gpa_sex`.  What is the difference in sample mean GPA's? Make a guess: is this difference statistically significant?
 
@@ -154,7 +155,7 @@ Type your complete sentence answer here using inline R code and delete this comm
 
 </div> 
 
-***
+__________
 
 4. How many times did we do a different "shuffle" (permute) here to the sample? How many rows are in the `gpas_in_null_world` data frame?
 
@@ -187,7 +188,7 @@ gpa_diff_under_null %>%
   slice(1:5) # show first five rows
 ```
 
-
+____________
 
 5. How many rows are in this data frame? Why?
 
@@ -353,6 +354,7 @@ ___________
 
 ```
 
+___________
 
 11. Calculate the p-value.
 
