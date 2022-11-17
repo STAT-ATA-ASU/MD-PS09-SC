@@ -192,7 +192,7 @@ gpa_diff_under_null %>%
 
 ____________
 
-5. How many rows are in this data frame? Why?
+5. How many rows are in the `gpa_diff_under_null` data frame? Why?
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
