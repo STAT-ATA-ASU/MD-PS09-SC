@@ -60,8 +60,8 @@ Be sure to take a look at the data in `sat_gpa`. Each row or case in this data f
 ::: {.callout-note}
 We will use hypothesis testing to answer the following questions:
 
-*  Is there a difference in male and female freshman GPAs?
-*  Is there a difference in total SAT score for students with a "low" and "high" high-school GPA?
+*  Is the mean freshmen GPA for females greater than the mean freshmen GPA for males?
+*  Is the mean total SAT score for students with a "high" GPA greater than the mean total SAT score for students with a "low" GPA?
 
 Note, if you get stuck as you are working through this, it will be helpful to go back and read [Chapter 9](https://moderndive.com/9-hypothesis-testing.html) in [ModernDive](https://moderndive.com/index.html).
 :::
@@ -103,9 +103,9 @@ Generate a data visualization that displays the GPAs of the two groups. Be sure 
 
 ## Stating a Null Hypothesis
 
-We will now test the null hypothesis that there's no difference in population mean GPA between the sexes at the population level. We can write this out in mathematical notation 
+We will now test the null hypothesis that there's no difference in population mean GPA between the sexes at the population level versus the alternative hypothesis that the mean GPA for females is greater than the mean GPA for males. We can write this out in mathematical notation 
 
-$$\begin{aligned} H_0:&\mu_{\text{female}} = \mu_{\text{male}} \\\ \mbox{vs }H_A:& \mu_{\text{female}} \neq \mu_{\text{male}} \end{aligned}$$
+$$\begin{aligned} H_0:&\mu_{\text{female}} = \mu_{\text{male}} \\\ \mbox{vs }H_A:& \mu_{\text{female}} > \mu_{\text{male}} \end{aligned}$$
 
 or expressed differently, that the difference is 0 or not:
 
@@ -247,11 +247,11 @@ gpa_diff_under_null %>%
 ::: {.callout-caution icon="false" title="R Code"}
 ```{r}
 gpa_diff_under_null %>% 
-  get_pvalue(obs_stat = obs_diff_gpa_sex, direction = "both") %>%   
+  get_pvalue(obs_stat = obs_diff_gpa_sex, direction = "greater") %>%   
   pull() -> pvalue
 pvalue
 # OR from the for loop - slighlty more conservative approach
-p_value <- (sum(mean_diff >= obs_diff)*2 + 1)/(B + 1)
+p_value <- (sum(mean_diff >= obs_diff) + 1)/(B + 1)
 p_value
 ```
 :::
@@ -308,7 +308,7 @@ Note that all the above steps can be done with one line of code **if a slew of a
 
 ::: {.callout-caution icon="false" title="R Code"}
 ```{r}
-t.test(gpa_fy ~ sex, var.equal = TRUE, data = sat_gpa)
+t.test(gpa_fy ~ sex, var.equal = TRUE, data = sat_gpa, alternative = "greater")
 ```
 :::
 
@@ -359,7 +359,7 @@ p1 + p2
 
 
 ::: {.callout-note icon="false" title="Problem 7"}
-State the null hypothesis that you are testing (using words and symbols).
+State the null and alternative hypotheses that you are testing (using words and symbols).
 :::
 
 ::: {.callout-important icon="false" collapse="false" title="Problem 7 Answers"}
@@ -465,7 +465,7 @@ Compute a 95% bootstrap percentile confidence interval for the difference in tot
 
 
 ::: {.callout-note icon="false" title="Problem 15"}
-Use a t-test to test the null hypothesis that average total SAT scores do not differ between students with high and low high school GPA scores at the population level.
+Use a t-test to test the null hypothesis that the mean total SAT scores do not differ between students with high and low high school GPA scores versus the mean total SAT scores is greater for students with high versus low high school GPA scores.  State you English conclusion and verify the conclusion using the bootstrap T distribution.
 :::
 
 ::: {.callout-important icon="false" collapse="false" title="Problem 15 Answers"}
@@ -475,6 +475,9 @@ Use a t-test to test the null hypothesis that average total SAT scores do not di
 # Use the bootstrap T distribution to test
 
 ```
+
+* English Conclusion here.
+
 :::
 
 
